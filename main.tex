@@ -1,0 +1,59 @@
+\documentclass[12pt,a4paper]{report}
+
+% بارگذاری تنظیمات و بسته‌ها
+\input{config/packages}
+\input{config/settings}
+\input{config/commands}
+
+% اطلاعات سند
+\title{گزارش گروهی درس تکامل نرم افزار}
+\author{محمدسینا اله‌کرم}
+\date{\today}
+
+\begin{document}
+
+% ============================================
+% صفحات مقدماتی
+% ============================================
+
+% صفحه عنوان
+\input{frontmatter/title}
+
+% چکیده
+\input{frontmatter/abstract}
+
+% تشکر و قدردانی
+% \input{frontmatter/acknowledgments}
+
+% فهرست مطالب
+\tableofcontents
+\newpage
+
+% فهرست شکل‌ها
+\listoffigures
+\newpage
+
+% فهرست جداول
+% \listoftables
+% \newpage
+
+% ============================================
+% فصل‌ها
+% ============================================
+
+% فصل اول
+\input{chapters/chapter1/main}
+
+% فصل دوم
+\input{chapters/chapter2/main}
+
+
+% ============================================
+% مراجع
+% ============================================
+
+% چاپ منابع با استفاده از biblatex
+\printbibliography[title={منابع}]
+
+\end{document}
+

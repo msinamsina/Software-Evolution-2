@@ -1,0 +1,53 @@
+% ============================================
+% دستورات سفارشی
+% ============================================
+
+% دستور برای نوشتن متن انگلیسی
+\newcommand{\en}[1]{\lr{#1}}
+
+% دستور برای تاکید
+\newcommand{\emphasis}[1]{\textbf{#1}}
+
+% دستور برای کد درون‌خطی
+\newcommand{\code}[1]{\texttt{#1}}
+
+% دستور برای نقل قول فارسی
+\newcommand{\pquote}[1]{«#1»}
+
+% محیط برای مثال
+\newtheorem{example}{مثال}[chapter]
+
+% محیط برای تعریف
+\newtheorem{definition}{تعریف}[chapter]
+
+% محیط برای قضیه
+\newtheorem{theorem}{قضیه}[chapter]
+
+% محیط برای لم
+\newtheorem{lemma}{لم}[chapter]
+
+% محیط برای نتیجه
+\newtheorem{corollary}{نتیجه}[chapter]
+
+% دستور برای اضافه کردن تصویر
+\newcommand{\addimage}[4][1]{
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=#1\textwidth]{#2}
+        \caption{#3}
+        \label{#4}
+    \end{figure}
+}
+
+% دستور برای مرجع‌دهی به شکل
+\newcommand{\figref}[1]{شکل~\ref{#1}}
+
+% دستور برای مرجع‌دهی به جدول
+\newcommand{\tabref}[1]{جدول~\ref{#1}}
+
+% دستور برای مرجع‌دهی به فصل
+\newcommand{\chapref}[1]{فصل~\ref{#1}}
+
+% دستور برای مرجع‌دهی به بخش
+\newcommand{\secref}[1]{بخش~\ref{#1}}
+

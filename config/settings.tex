@@ -1,0 +1,100 @@
+% ============================================
+% تنظیمات فونت
+% ============================================
+
+\settextfont[
+    Path=/usr/share/fonts/truetype/farsi/fonts/ttf/,
+    Extension=.ttf,
+    UprightFont=*-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-Regular
+]{Vazirmatn}
+
+\setdigitfont[
+    Path=/usr/share/fonts/truetype/farsi/fonts/ttf/,
+    Extension=.ttf,
+    UprightFont=*-Regular
+]{Vazirmatn}
+
+\setlatintextfont[
+    Path=/usr/share/fonts/truetype/farsi/fonts/ttf/,
+    Extension=.ttf,
+    UprightFont=*-Regular
+]{Vazirmatn}
+
+% اضافه کردن منبع بیبلیوگرافی
+\addbibresource{backmatter/references.bib}
+
+% تنظیم جهت متن برای منابع انگلیسی (چپ به راست)
+\defbibheading{bibliography}[\bibname]{%
+  \chapter*{#1}%
+  \markboth{#1}{#1}%
+}
+
+% تنظیمات اضافی برای نمایش صحیح منابع انگلیسی
+\renewcommand*{\bibfont}{\LTR\latinfont}
+
+% ============================================
+% تنظیمات هایپرلینک
+% ============================================
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    citecolor=green,
+    pdftitle={گزارش گروهی درس تکامل نرم افزار},
+    pdfauthor={نویسنده},
+    pdfsubject={موضوع گزارش},
+    pdfkeywords={کلیدواژه۱، کلیدواژه۲، کلیدواژه۳},
+    bookmarksnumbered=true,
+}
+
+% ============================================
+% تنظیمات صفحه‌آرایی
+% ============================================
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\leftmark}
+\fancyfoot[C]{\thepage}
+
+% حذف خط افقی در هدر و فوتر
+\renewcommand{\headrulewidth}{4.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% ============================================
+% تنظیمات فاصله‌گذاری
+% ============================================
+
+\setlength{\parindent}{1cm}
+\setlength{\parskip}{0.5em}
+\linespread{1.5}
+
+% ============================================
+% تنظیمات listings برای کد
+% ============================================
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    numbers=left,
+    numberstyle=\tiny,
+    frame=single,
+    breaklines=true,
+    captionpos=b,
+    tabsize=4,
+    showstringspaces=false
+}
+
+% ============================================
+% تنظیمات شکل‌ها و جداول
+% ============================================
+
+\graphicspath{{images/}}
+
+% تنظیم فاصله شناور برای تصاویر و جداول
+\setlength{\textfloatsep}{20pt plus 2pt minus 4pt}
+\setlength{\floatsep}{12pt plus 2pt minus 2pt}
+\setlength{\intextsep}{20pt plus 2pt minus 4pt}
+

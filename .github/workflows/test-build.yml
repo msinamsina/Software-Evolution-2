@@ -1,0 +1,84 @@
+name: Test LaTeX Build
+
+on:
+  # Test on pull requests
+  pull_request:
+    branches: [main, master]
+    paths:
+      - "**.tex"
+      - "**.bib"
+      - "images/**"
+      - ".github/workflows/**"
+
+  # Test on pushes to development branches
+  push:
+    branches-ignore: [main, master]
+    paths:
+      - "**.tex"
+      - "**.bib"
+      - "images/**"
+      - ".github/workflows/**"
+
+jobs:
+  test-compilation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build LaTeX Docker image
+        run: |
+          cd .
+          docker build -t persian-latex .
+
+      - name: Test LaTeX compilation
+        run: |
+          echo "Testing LaTeX compilation..."
+
+          # Quick compilation test (single pass)
+          echo "Running quick XeLaTeX test..."
+          docker run --rm -v "$(pwd):/work" persian-latex xelatex -interaction=nonstopmode main.tex
+
+          # Check if PDF was generated
+          if [ -f "main.pdf" ]; then
+            echo "✅ LaTeX compilation test passed"
+            echo "PDF size: $(du -h main.pdf | cut -f1)"
+          else
+            echo "❌ LaTeX compilation test failed"
+            exit 1
+          fi
+
+      - name: Validate LaTeX syntax
+        run: |
+          echo "Checking for common LaTeX issues..."
+
+          # Check for undefined references (warnings are OK for test)
+          if docker run --rm -v "$(pwd):/work" persian-latex xelatex -interaction=nonstopmode main.tex 2>&1 | grep -i "error"; then
+            echo "❌ LaTeX errors found"
+            exit 1
+          else
+            echo "✅ No LaTeX errors found"
+          fi
+
+      - name: Upload test PDF
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-pdf-${{ github.sha }}
+          path: main.pdf
+          retention-days: 7
+
+      - name: Upload test logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-logs-${{ github.sha }}
+          path: |
+            *.log
+            *.aux
+            *.out
+          retention-days: 7

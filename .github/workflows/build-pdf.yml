@@ -1,0 +1,72 @@
+name: Build Persian LaTeX Report
+
+on:
+  # Trigger on new releases
+  release:
+    types: [published]
+
+  # Also trigger on push to main branch for testing
+  push:
+    branches: [main, master]
+    paths:
+      - "**.tex"
+      - "**.bib"
+      - "images/**"
+      - ".github/workflows/build-pdf.yml"
+
+  # Allow manual trigger
+  workflow_dispatch:
+
+jobs:
+  build-latex:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and compile LaTeX document
+        run: make all
+
+      - name: Check PDF generation
+        run: |
+          if [ -f "main.pdf" ]; then
+            echo "✅ PDF generated successfully"
+            ls -la main.pdf
+            echo "PDF size: $(du -h main.pdf | cut -f1)"
+          else
+            echo "❌ PDF generation failed"
+            exit 1
+          fi
+
+      - name: Upload PDF as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: persian-report-pdf
+          path: main.pdf
+          retention-days: 90
+
+      - name: Upload PDF to release (on release only)
+        if: github.event_name == 'release'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./main.pdf
+          asset_name: persian-report-${{ github.event.release.tag_name }}.pdf
+          asset_content_type: application/pdf
+
+      - name: Upload compilation logs (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: latex-logs
+          path: |
+            *.log
+            *.aux
+            *.out
+          retention-days: 30
